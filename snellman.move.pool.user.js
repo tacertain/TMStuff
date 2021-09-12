@@ -14,14 +14,13 @@
 
     var checkExist = setInterval(function() {
    if (document.getElementById('root')) {
-       var container = document.getElementById ("root");
+       var gameBoard = document.getElementById ("main-data");
        var factions = document.getElementById ("factions");
        var pool = factions.querySelector(".pool");
-       var gameBoard = document.getElementById ("main-data");
-
-       console.log("Pool = " + pool);
-       //-- Move the pool to be right after the game board.
-       gameBoard.parentNode.insertBefore (pool, gameBoard.nextSibling);
+       var newRow = gameBoard.insertRow();
+       var newCell = newRow.insertCell(0);
+       newCell.colSpan = 2;
+       newCell.appendChild(pool);
        clearInterval(checkExist);
    }
     }, 100); // check every 100ms
