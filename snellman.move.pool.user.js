@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        https://terra.snellman.net/faction/bunderscoretest/*
+// @match        https://terra.snellman.net/faction/*
 // @icon         https://www.google.com/s2/favicons?domain=snellman.net
 // @grant        none
 // ==/UserScript==
@@ -17,11 +17,14 @@
        var gameBoard = document.getElementById ("main-data");
        var factions = document.getElementById ("factions");
        var pool = factions.querySelector(".pool");
-       var newRow = gameBoard.insertRow();
-       var newCell = newRow.insertCell(0);
-       newCell.colSpan = 2;
-       newCell.appendChild(pool);
-       clearInterval(checkExist);
+       if (pool != null) {
+           var firstRow = gameBoard.rows[0];
+           var newCell = firstRow.insertCell(-1);
+           newCell.rowSpan = 3;
+           newCell.appendChild(pool);
+           pool.style.width = "410px";
+           clearInterval(checkExist);
+       }
    }
     }, 100); // check every 100ms
 
