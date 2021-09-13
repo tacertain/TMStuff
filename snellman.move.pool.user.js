@@ -21,6 +21,7 @@
            var firstRow = gameBoard.rows[0];
            var newCell = firstRow.insertCell(-1);
            newCell.rowSpan = 3;
+           newCell.style.verticalAlign = "top";
            newCell.appendChild(pool);
            pool.style.width = "410px";
            clearInterval(checkExist);
