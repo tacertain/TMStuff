@@ -13,20 +13,35 @@
     'use strict';
 
     var checkExist = setInterval(function() {
-   if (document.getElementById('root')) {
-       var gameBoard = document.getElementById ("main-data");
-       var factions = document.getElementById ("factions");
-       var pool = factions.querySelector(".pool");
-       if (pool != null) {
-           var firstRow = gameBoard.rows[0];
-           var newCell = firstRow.insertCell(-1);
-           newCell.rowSpan = 3;
-           newCell.style.verticalAlign = "top";
-           newCell.appendChild(pool);
-           pool.style.width = "410px";
-           clearInterval(checkExist);
-       }
-   }
+        if (document.getElementById('root')) {
+            var factions = document.getElementById ("factions");
+            const config = { childList: true };
+
+            var callback = function(mutations, observer) {
+                for(const mutation of mutations) {
+                    if (mutation.type === 'childList') {
+                        var pool = mutation.target.querySelector(".pool");
+                        if (pool != null) {
+                            var gameBoard = document.getElementById ("main-data");
+                            var firstRow = gameBoard.rows[0];
+                            if (firstRow.cells.length > 2) {
+                                firstRow.deleteCell(-1);
+                            }
+                            var newCell = firstRow.insertCell(-1);
+                            newCell.rowSpan = 3;
+                            newCell.style.verticalAlign = "top";
+                            newCell.appendChild(pool);
+                            pool.style.width = "410px";
+                        }
+                    }
+                }
+            }
+
+            var observer = new MutationObserver(callback);
+            observer.observe(factions, config);
+
+            clearInterval(checkExist);
+        }
     }, 100); // check every 100ms
 
 })();
